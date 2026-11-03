@@ -38,18 +38,18 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-stone">
-        <div className="mx-auto flex h-[72px] max-w-[1280px] items-center gap-8 px-4 sm:px-8">
+        <div className="mx-auto flex flex-wrap max-w-[1280px] items-center gap-x-8 gap-y-2 px-4 py-4 sm:h-[72px] sm:flex-nowrap sm:py-0 sm:px-8">
           <a href="/" className="chrome flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.08em] no-underline">
             <img src="/favicon.svg" alt="" className="h-6 w-6" /> NagarSetu
           </a>
-          <nav className="flex gap-6 overflow-x-auto">
+          <nav className="flex w-full gap-4 overflow-x-auto sm:w-auto sm:gap-6">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
                 aria-current={tab === t.id ? 'page' : undefined}
                 className={`chrome whitespace-nowrap py-2 text-[12px] transition-colors duration-150 ${
-                  tab === t.id ? 'text-slate-dark underline underline-offset-[6px]' : 'text-cloud-dark hover:text-slate-dark'
+                  tab === t.id ? 'text-slate-dark underline underline-offset-[6px]' : 'text-slate-medium hover:text-slate-dark'
                 }`}
               >
                 {t.label}
@@ -103,7 +103,7 @@ export default function App() {
           </div>
         </div>
         <div className="mx-auto max-w-[1280px] px-4 sm:px-8 pb-12">
-          <div className="chrome border-t border-slate-medium pt-6 text-[12px] text-cloud-dark">
+          <div className="chrome border-t border-slate-medium pt-6 text-[12px] text-cloud-medium">
             Issues tagged “demo” are synthetic seed data for demonstration only.
           </div>
         </div>
@@ -121,7 +121,7 @@ function StatRow({ stats }) {
     ['Avg. days to resolve', Math.round(stats.avgResolutionHours / 24)],
   ]
   return (
-    <dl className="mt-12 grid grid-cols-2 sm:grid-cols-5 border-t border-stone">
+    <dl className="mt-12 grid grid-cols-2 sm:grid-cols-5 border-t border-stone [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
       {items.map(([k, v], idx) => (
         <div key={k} className={`py-5 sm:px-6 ${idx > 0 ? 'sm:border-l border-stone' : 'sm:pl-0'}`}>
           <dd className="font-serif text-[40px] lg:text-[48px] leading-none">{v}</dd>
@@ -159,7 +159,7 @@ function CityMap({ issues, hotspots }) {
             <span>Size = citizens</span>
           </div>
         </div>
-        <MapView issues={shown} hotspots={hotspots} className="h-[620px]" />
+        <MapView issues={shown} hotspots={hotspots} className="h-[400px] sm:h-[620px]" />
       </section>
 
       <aside className="space-y-4">

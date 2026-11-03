@@ -2,7 +2,7 @@ import { Circle, CircleMarker, MapContainer, Popup, TileLayer, Tooltip, useMapEv
 import { CATEGORIES, CITY_CENTER, STATUSES } from './lib'
 
 function ClickCatcher({ onPick }) {
-  useMapEvents({ click: (e) => onPick?.([e.latlng.lat, e.latlng.lng]) })
+  useMapEvents({ click: (e) => { const p = e.latlng.wrap(); onPick?.([p.lat, p.lng]) } })
   return null
 }
 

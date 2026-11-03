@@ -35,8 +35,10 @@ export async function api(path, { method = 'GET', body, adminKey } = {}) {
     body: body ? JSON.stringify(body) : undefined,
   })
   if (!res.ok) {
+    // Spring hides exception reasons by default, so map the status to something readable.
+    const fallback = { 400: 'Please check the form fields.', 401: 'Invalid authority key.', 404: 'No issue with that ticket code.' }
     const err = await res.json().catch(() => ({}))
-    throw new Error(err.message || err.error || `Request failed (${res.status})`)
+    throw new Error(err.message || fallback[res.status] || `Request failed (${res.status})`)
   }
   return res.json()
 }

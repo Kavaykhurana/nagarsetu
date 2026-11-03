@@ -91,7 +91,7 @@ export function ReportPanel({ issues, hotspots, onReported }) {
             <legend className="label">Category</legend>
             <div className="flex flex-wrap gap-2">
               {Object.entries(CATEGORIES).map(([k, v]) => (
-                <button type="button" key={k} aria-pressed={form.category === k} onClick={() => setForm({ ...form, category: k })} className="btn btn-outline">
+                <button type="button" key={k} aria-pressed={form.category === k} onClick={() => setForm({ ...form, category: k })} className="btn btn-outline inline-flex items-center gap-1.5">
                   {v.emoji} {v.label}
                 </button>
               ))}
@@ -118,7 +118,7 @@ export function ReportPanel({ issues, hotspots, onReported }) {
         </form>
         {result && <ReportResult result={result} />}
       </div>
-      <MapView issues={issues.filter((i) => i.status !== 'RESOLVED')} hotspots={hotspots} picked={picked} onPick={setPicked} className="h-[560px] lg:h-[720px]" />
+      <MapView issues={issues.filter((i) => i.status !== 'RESOLVED')} hotspots={hotspots} picked={picked} onPick={setPicked} className="order-first h-[360px] sm:h-[560px] lg:order-none lg:h-[720px]" />
     </div>
   )
 }
@@ -194,8 +194,8 @@ export function TrackPanel() {
           <ol className="chrome flex items-center text-[12px]">
             {steps.map((s, idx) => (
               <li key={s} className="flex flex-1 items-center last:flex-none">
-                <span className={`flex h-7 w-7 items-center justify-center rounded-full border ${idx <= at ? 'border-slate-dark bg-slate-dark text-ivory-light' : 'border-stone text-cloud-dark'}`}>{idx + 1}</span>
-                <span className={`ml-2 ${idx <= at ? 'font-semibold' : 'text-cloud-dark'}`}>{STATUSES[s].label}</span>
+                <span className={`flex h-7 w-7 items-center justify-center rounded-full border ${idx <= at ? 'border-slate-dark bg-slate-dark text-ivory-light' : 'border-stone text-slate-medium'}`}>{idx + 1}</span>
+                <span className={`ml-2 ${idx <= at ? 'font-semibold' : 'text-slate-medium'}`}>{STATUSES[s].label}</span>
                 {idx < steps.length - 1 && <span className={`mx-3 h-px flex-1 ${idx < at ? 'bg-slate-dark' : 'bg-stone'}`} />}
               </li>
             ))}
@@ -230,7 +230,9 @@ export function AuthorityPanel({ issues, onChanged }) {
   const [key, setKey] = useState(() => {
     try { return sessionStorage.getItem('ns-admin') || '' } catch { return '' }
   })
-  const [authed, setAuthed] = useState(false)
+  const [authed, setAuthed] = useState(() => {
+    try { return !!sessionStorage.getItem('ns-admin') } catch { return false }
+  })
   const [error, setError] = useState('')
   const [filter, setFilter] = useState('ACTIVE')
   const [open, setOpen] = useState(null)
@@ -292,15 +294,15 @@ export function AuthorityPanel({ issues, onChanged }) {
       </div>
       {error && <Notice kind="Error">{error}</Notice>}
       <div className="overflow-x-auto rounded-[24px] border border-stone bg-ivory-light">
-        <table className="w-full min-w-[720px]">
+        <table className="w-full min-w-[560px] sm:min-w-[720px]">
           <thead className="chrome border-b border-stone text-left text-[12px] uppercase tracking-[0.06em] text-slate-medium">
             <tr>
-              <th className="px-6 py-4 font-semibold">Rank</th>
-              <th className="px-6 py-4 font-semibold">Issue</th>
-              <th className="px-6 py-4 font-semibold">Citizens</th>
-              <th className="px-6 py-4 font-semibold">Age</th>
-              <th className="px-6 py-4 font-semibold">Priority</th>
-              <th className="px-6 py-4 font-semibold">Status</th>
+              <th className="hidden px-4 py-4 font-semibold sm:table-cell sm:px-6">Rank</th>
+              <th className="px-4 py-4 font-semibold sm:px-6">Issue</th>
+              <th className="px-4 py-4 font-semibold sm:px-6">Citizens</th>
+              <th className="hidden px-4 py-4 font-semibold sm:table-cell sm:px-6">Age</th>
+              <th className="px-4 py-4 font-semibold sm:px-6">Priority</th>
+              <th className="px-4 py-4 font-semibold sm:px-6">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -317,22 +319,22 @@ export function AuthorityPanel({ issues, onChanged }) {
 function Row({ i, idx, open, toggle, setStatus }) {
   return (
     <>
-      <tr onClick={toggle} className="cursor-pointer border-t border-stone first:border-t-0 transition-colors duration-150 hover:bg-ivory-medium">
-        <td className="chrome px-6 py-4 text-[14px] text-slate-medium">{idx + 1}</td>
-        <td className="px-6 py-4">
-          <div className="text-[18px] leading-snug">
+      <tr className="border-t border-stone first:border-t-0 transition-colors duration-150 hover:bg-ivory-medium">
+        <td className="chrome hidden px-4 py-4 text-[14px] text-slate-medium sm:table-cell sm:px-6">{idx + 1}</td>
+        <td className="px-4 py-4 sm:px-6">
+          <button type="button" onClick={toggle} aria-expanded={open} className="text-left text-[18px] leading-snug hover:underline">
             {i.title}
-          </div>
+          </button>
           <div className="chrome mt-1 text-[12px] text-slate-medium">
             {CATEGORIES[i.category].emoji} {CATEGORIES[i.category].label} · {i.ticketCode}
             {i.inHotspot && <b className="ml-2 font-semibold uppercase tracking-[0.06em] text-slate-dark">· Hotspot</b>}
-            {i.demo && <span className="ml-2 text-cloud-dark">· demo</span>}
+            {i.demo && <span className="ml-2">· demo</span>}
           </div>
         </td>
-        <td className="chrome px-6 py-4 text-[14px]">{i.reportCount}</td>
-        <td className="chrome px-6 py-4 text-[14px] text-slate-medium">{timeAgo(i.createdAt)}</td>
-        <td className="px-6 py-4 font-mono text-[16px]">{i.priority}</td>
-        <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+        <td className="chrome px-4 py-4 text-[14px] sm:px-6">{i.reportCount}</td>
+        <td className="chrome hidden px-4 py-4 text-[14px] text-slate-medium sm:table-cell sm:px-6">{timeAgo(i.createdAt)}</td>
+        <td className="px-4 py-4 font-mono text-[16px] sm:px-6">{i.priority}</td>
+        <td className="px-4 py-4 sm:px-6">
           <select aria-label={`Status of ${i.ticketCode}`} value={i.status} onChange={(e) => setStatus(i.id, e.target.value)} className="field !py-2 !text-[14px]">
             {Object.entries(STATUSES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
           </select>
@@ -340,8 +342,8 @@ function Row({ i, idx, open, toggle, setStatus }) {
       </tr>
       {open && (
         <tr className="bg-ivory-medium">
-          <td />
-          <td colSpan={5} className="px-6 pb-6 pt-2">
+          <td className="hidden sm:table-cell" />
+          <td colSpan={5} className="px-4 pb-6 pt-2 sm:px-6">
             {i.description && <p className="mb-4 text-[18px] text-slate-medium">{i.description}</p>}
             <div className="max-w-xl"><PriorityBars breakdown={i.priorityBreakdown} /></div>
           </td>

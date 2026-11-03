@@ -39,8 +39,8 @@ public class IssueController {
             @NotBlank @Size(max = 120) String title,
             @Size(max = 1000) String description,
             @NotNull Issue.Category category,
-            @DecimalMin("-90") @DecimalMax("90") double latitude,
-            @DecimalMin("-180") @DecimalMax("180") double longitude) {}
+            @NotNull @DecimalMin("-90") @DecimalMax("90") Double latitude,
+            @NotNull @DecimalMin("-180") @DecimalMax("180") Double longitude) {}
 
     public record IssueView(long id, String ticketCode, String title, String description,
                             Issue.Category category, Issue.Status status, double latitude, double longitude,
