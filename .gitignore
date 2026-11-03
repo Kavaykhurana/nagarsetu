@@ -1,0 +1,11 @@
+node_modules/
+dist/
+target/
+.DS_Store
+.idea/
+*.log
+.claude/
+.project
+.settings/
+.classpath
+.vscode/
