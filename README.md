@@ -24,15 +24,16 @@
 1. [The problem](#the-problem)
 2. [The solution](#the-solution)
 3. [Key features](#key-features)
-4. [Architecture](#architecture)
-5. [Method](#method)
-6. [Evaluation](#evaluation)
-7. [Getting started](#getting-started)
-8. [Configuration](#configuration)
-9. [API reference](#api-reference)
-10. [Project structure](#project-structure)
-11. [Limitations and future work](#limitations-and-future-work)
-12. [Acknowledgements](#acknowledgements)
+4. [Screenshots](#screenshots)
+5. [Architecture](#architecture)
+6. [Method](#method)
+7. [Evaluation](#evaluation)
+8. [Getting started](#getting-started)
+9. [Configuration](#configuration)
+10. [API reference](#api-reference)
+11. [Project structure](#project-structure)
+12. [Limitations and future work](#limitations-and-future-work)
+13. [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -73,6 +74,20 @@ NagarSetu ("bridge to the city") puts an analysis layer between citizens and the
   authority key compared in constant time.
 - **Public city map** with status and category filters, hotspot overlays, and markers sized by citizens affected.
 - **Transparency metrics**: issues on record, citizen reports, duplicates merged, active hotspots, average days to resolve.
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Report tab](docs/screenshots/report.png) | ![City map](docs/screenshots/city-map.png) |
+| **Report.** Live transparency metrics, the report form and a map of current issues. | **City map.** Filterable issue markers with hotspot overlays and the ranked DBSCAN hotspot list. |
+| ![Ticket tracking](docs/screenshots/track.png) | ![Authority dashboard](docs/screenshots/authority.png) |
+| **Track.** Ticket NS-000005 with its status timeline and priority breakdown. | **Authority dashboard.** The priority-ranked work queue with the top issue expanded to show each score term. |
+
+<p align="center">
+  <img src="docs/screenshots/mobile.png" alt="Mobile view of the Report tab" width="280"><br>
+  <em>Mobile.</em> The same Report tab at phone width.
+</p>
 
 ## Architecture
 
